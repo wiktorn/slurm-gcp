@@ -74,17 +74,28 @@ resource "google_compute_instance_from_template" "slurm_instance" {
 
   allow_stopping_for_update = true
 
-  network_interface {
-    network            = var.network
-    subnetwork         = var.subnetwork
-    subnetwork_project = var.subnetwork_project
-    network_ip         = length(var.static_ips) == 0 ? "" : element(local.static_ips, count.index)
-    dynamic "access_config" {
-      for_each = var.access_config
-      content {
-        nat_ip       = access_config.value.nat_ip
-        network_tier = access_config.value.network_tier
+  dynamic "network_interface" {
+    # override network_interface only if some values are provided, otherwise skip and use value from template
+    for_each = (
+      coalesce(var.network, "") != "" ||
+      coalesce(var.subnetwork, "") != "" ||
+      coalesce(var.subnetwork_project, "") != "" ||
+      length(coalesce(var.static_ips, [])) > 0 ||
+      length(coalesce(var.access_config, [])) > 0
+    ) ? [""] : []
+    content {
+      network            = var.network
+      subnetwork         = var.subnetwork
+      subnetwork_project = var.subnetwork_project
+      network_ip         = length(var.static_ips) == 0 ? "" : element(local.static_ips, count.index)
+      dynamic "access_config" {
+        for_each = var.access_config
+        content {
+          nat_ip       = access_config.value.nat_ip
+          network_tier = access_config.value.network_tier
+        }
       }
+
     }
   }
 
