@@ -75,27 +75,53 @@ resource "google_compute_instance_from_template" "slurm_instance" {
   allow_stopping_for_update = true
 
   dynamic "network_interface" {
-    # override network_interface only if some values are provided, otherwise skip and use value from template
-    for_each = (
-      (var.network != null && var.network != "") ||
-      (var.subnetwork != null && var.subnetwork != "") ||
-      (var.subnetwork_project != null && var.subnetwork_project != "") ||
-      length(coalesce(var.static_ips, [])) > 0 ||
-      length(coalesce(var.access_config, [])) > 0
-    ) ? [""] : []
+    for_each = concat([
+      {
+        access_config      = var.access_config
+        alias_ip_range     = []
+        ipv6_access_config = []
+        network            = var.network
+        network_ip         = length(var.static_ips) == 0 ? "" : element(local.static_ips, count.index)
+        nic_type           = null
+        queue_count        = null
+        stack_type         = null
+        subnetwork         = var.subnetwork
+        subnetwork_project = var.subnetwork_project
+      }
+      ],
+      var.additional_networks
+    )
+    iterator = "nic"
     content {
-      network            = var.network
-      subnetwork         = var.subnetwork
-      subnetwork_project = var.subnetwork_project
-      network_ip         = length(var.static_ips) == 0 ? "" : element(local.static_ips, count.index)
       dynamic "access_config" {
-        for_each = var.access_config
+        for_each = nic.access_config
         content {
           nat_ip       = access_config.value.nat_ip
           network_tier = access_config.value.network_tier
         }
       }
-
+      dynamic "alias_ip_range" {
+        for_each = nic.alias_ip_range
+        content {
+          ip_cidr_range         = alias_ip_range.value.ip_cidr_range
+          subnetwork_range_name = alias_ip_range.value.subnetwork_range_name
+        }
+      }
+      dynamic "ipv6_access_config" {
+        for_each = nic.ipv6_access_config
+        iterator = "access_config"
+        content {
+          network_tier = access_config.value.network_tier
+        }
+      }
+      internal_ipv6_prefix_length = nic.internal_ipv6_prefix_length
+      ipv6_address                = nic.ipv6_address
+      network                     = nic.network
+      network_ip                  = nic.network_
+      nic_type                    = nic.nic_type
+      queue_count                 = nic.queue_count
+      subnetwork                  = nic.subnetwork
+      subnetwork_project          = nic.subnetwork_project
     }
   }
 
