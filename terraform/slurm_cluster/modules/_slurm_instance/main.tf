@@ -91,25 +91,25 @@ resource "google_compute_instance_from_template" "slurm_instance" {
       ],
       var.additional_networks
     )
-    iterator = "nic"
+    iterator = nic
     content {
       dynamic "access_config" {
-        for_each = nic.access_config
+        for_each = nic.value.access_config
         content {
           nat_ip       = access_config.value.nat_ip
           network_tier = access_config.value.network_tier
         }
       }
       dynamic "alias_ip_range" {
-        for_each = nic.alias_ip_range
+        for_each = nic.value.alias_ip_range
         content {
           ip_cidr_range         = alias_ip_range.value.ip_cidr_range
           subnetwork_range_name = alias_ip_range.value.subnetwork_range_name
         }
       }
       dynamic "ipv6_access_config" {
-        for_each = nic.ipv6_access_config
-        iterator = "access_config"
+        for_each = nic.value.ipv6_access_config
+        iterator = access_config
         content {
           network_tier = access_config.value.network_tier
         }
