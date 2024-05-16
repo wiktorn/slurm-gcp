@@ -114,14 +114,12 @@ resource "google_compute_instance_from_template" "slurm_instance" {
           network_tier = access_config.value.network_tier
         }
       }
-      internal_ipv6_prefix_length = nic.value.internal_ipv6_prefix_length
-      ipv6_address                = nic.value.ipv6_address
-      network                     = nic.value.network
-      network_ip                  = nic.value.network_ip
-      nic_type                    = nic.value.nic_type
-      queue_count                 = nic.value.queue_count
-      subnetwork                  = nic.value.subnetwork
-      subnetwork_project          = nic.value.subnetwork_project
+      network            = nic.value.network
+      network_ip         = nic.value.network_ip
+      nic_type           = nic.value.nic_type
+      queue_count        = nic.value.queue_count
+      subnetwork         = nic.value.subnetwork
+      subnetwork_project = nic.value.subnetwork_project
     }
   }
 
