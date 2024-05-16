@@ -77,9 +77,9 @@ resource "google_compute_instance_from_template" "slurm_instance" {
   dynamic "network_interface" {
     # override network_interface only if some values are provided, otherwise skip and use value from template
     for_each = (
-      coalesce(var.network, "") != "" ||
-      coalesce(var.subnetwork, "") != "" ||
-      coalesce(var.subnetwork_project, "") != "" ||
+      (var.network != null && var.network != "") ||
+      (var.subnetwork != null && var.subnetwork != "") ||
+      (var.subnetwork_project != null && var.subnetwork_project != "") ||
       length(coalesce(var.static_ips, [])) > 0 ||
       length(coalesce(var.access_config, [])) > 0
     ) ? [""] : []
