@@ -15,9 +15,9 @@
 - name: Install {{ansible_os_family}} Family Kernel Packages
   dnf:
     name:
-    - kernel
-    - kernel-devel
-    - kernel-headers
+    - kernel-{{ ansible_kernel }}
+    - kernel-devel-{{ ansible_kernel }}
+    - kernel-headers-{{ ansible_kernel }}
     - kernel-modules
     - kernel-tools
     - kernel-tools-libs
