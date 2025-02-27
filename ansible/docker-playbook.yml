@@ -54,7 +54,7 @@
     install_pmix: true
     install_pyxis: true
     install_tpu: true
-    install_libtpu: true
+    install_libtpu: false
 
   pre_tasks:
   - name: Minimum Ansible Version Check
