@@ -51,6 +51,7 @@
     mode: '0555'
     owner: root
     group: root
+  when: tf_version != "none"
 
 - name: Copy startup service file
   copy:
