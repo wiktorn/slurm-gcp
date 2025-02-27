@@ -49,7 +49,7 @@
       apps: /opt/apps
       modulefiles: /opt/apps/modulefiles
     install_ompi: true
-    install_lustre: true
+    install_lustre: false
     install_gcsfuse: true
     install_pmix: true
     install_pyxis: true
