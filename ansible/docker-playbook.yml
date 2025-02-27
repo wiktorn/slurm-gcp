@@ -53,6 +53,7 @@
     install_gcsfuse: true
     install_pmix: true
     install_pyxis: true
+    install_tpu: true
 
   pre_tasks:
   - name: Minimum Ansible Version Check

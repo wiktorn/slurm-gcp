@@ -18,6 +18,7 @@
     that:
     - tf_version in tf_versions_to_tpu_mapping.keys()
     fail_msg: The tf_version {{tf_version}} is not supported
+  when: install_libtpu
 
 - name: Calculate python310 variable
   set_fact:
