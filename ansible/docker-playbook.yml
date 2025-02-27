@@ -143,10 +143,6 @@
     - install_pyxis
   - role: ompi
     when: install_ompi
-  - role: lustre
-    when:
-    - install_lustre
-    - ansible_architecture == "x86_64"
   - role: gcsfuse
     when:
     - install_gcsfuse
