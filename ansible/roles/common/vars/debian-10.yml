@@ -32,6 +32,7 @@ common_packages:
 - libtool
 - llvm
 - make
+- nfs-client
 - pciutils
 - pdsh
 - pkg-config

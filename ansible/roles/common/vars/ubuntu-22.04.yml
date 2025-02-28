@@ -33,6 +33,7 @@ common_packages:
 - libtool
 - lynx
 - make
+- nfs-client
 - pciutils
 - pdsh
 - pkg-config

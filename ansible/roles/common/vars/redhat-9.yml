@@ -45,6 +45,7 @@ common_packages:
 - libtool
 - ltrace
 - make
+- nfs-utils
 - openssl-devel
 - patchutils
 - pciutils
