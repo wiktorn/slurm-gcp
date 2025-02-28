@@ -38,6 +38,7 @@ common_packages:
 - pdsh
 - pkgconfig
 - python3
+- sudo
 - tmux
 - unzip
 - valgrind

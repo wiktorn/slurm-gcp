@@ -61,6 +61,7 @@ common_packages:
 - rpm-sign
 - source-highlight
 - strace
+- sudo
 - systemtap
 - tmux
 - unzip

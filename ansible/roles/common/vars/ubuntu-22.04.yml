@@ -39,6 +39,7 @@ common_packages:
 - pkg-config
 - python3
 - python3-gdbm
+- sudo
 - tmux
 - unzip
 - valgrind
