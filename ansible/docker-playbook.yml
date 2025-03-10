@@ -46,7 +46,7 @@
       src: /usr/local/src
       etc: /usr/local/etc
       build: /tmp
-      apps: /opt/apps
+      apps: /usr/local
       modulefiles: /opt/apps/modulefiles
     install_ompi: true
     install_lustre: false
@@ -88,9 +88,9 @@
   - name: Check Support on Rocky Linux
     when: ansible_distribution == "Rocky"
     ansible.builtin.assert:
-      that: ansible_distribution_major_version is version('8', '==')
+      that: ansible_distribution_major_version is version('8', '==') or ansible_distribution_major_version is version('9', '==')
       fail_msg: |
-        When building Slurm-GCP on Rocky Linux, use release 8
+        When building Slurm-GCP on Rocky Linux, use release 8 or 9
   - name: Check Support on RedHat Linux
     when: ansible_distribution == "RedHat"
     ansible.builtin.assert:
