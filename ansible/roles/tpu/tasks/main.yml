@@ -65,6 +65,14 @@
     group: root
     mode: 0o644
 
+- name: Set memlock limit
+  copy:
+    src: 100-tpu.conf
+    dest: /etc/security/limits.d/100-tpu.conf
+    owner: root
+    group: root
+    mode: 0o644
+
 - name: Enable startup service
   ansible.builtin.file:
     src: /etc/systemd/system/startup.service
